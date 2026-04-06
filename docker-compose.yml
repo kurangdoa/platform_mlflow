@@ -14,6 +14,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "8411:5432"
+    networks:
+      - mlflow-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -33,6 +35,8 @@ services:
     ports:
       - "8421:9000"
       - "8422:9001"
+    networks:
+      - mlflow-network
     volumes:
       - storage-data:/data
     restart: unless-stopped
@@ -60,6 +64,8 @@ services:
           aws --endpoint-url=${MLFLOW_S3_ENDPOINT_URL} s3api create-bucket --bucket ${S3_BUCKET} --region ${AWS_DEFAULT_REGION};
         fi
       "
+    networks:
+      - mlflow-network
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -108,6 +114,8 @@ services:
           --allowed-hosts "*"
     ports:
       - "8431:${MLFLOW_PORT}"
+    networks:
+      - mlflow-network
     healthcheck:
       test:
         [
