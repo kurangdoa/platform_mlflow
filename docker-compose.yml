@@ -121,5 +121,5 @@ services:
       retries: 30
 
 networks:
-  default:
-    name: mlflow-network
+  mlflow-network:
+    external: true
