@@ -133,4 +133,4 @@ services:
 
 networks:
   mlflow-network:
-    external: true
+    name: mlflow-network
